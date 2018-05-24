@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'menu-nav',
@@ -8,11 +7,12 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./menu-nav.component.css']
 })
 export class MenuNavComponent {
-  constructor(private afAuth: AngularFireAuth, private authService: AuthService) {
-    afAuth.authState.subscribe(x => console.log(x));
+  user$;
+  constructor(private auth: AuthService) {
+    this.user$ = auth.currentUser;
    }
 
-  logout() {
-    this.afAuth.auth.signOut();
-  }
+   logout() {
+    this.auth.logout();
+   }
 }
