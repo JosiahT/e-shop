@@ -7,9 +7,9 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./menu-nav.component.css']
 })
 export class MenuNavComponent {
-  user$;
+  appUser$;
   constructor(private auth: AuthService) {
-    this.user$ = auth.currentUser;
+    this.appUser$ = auth.appUser;
    }
 
    logout() {
