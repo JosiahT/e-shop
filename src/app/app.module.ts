@@ -9,6 +9,8 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
+import { CdkTableModule} from '@angular/cdk/table';
+import { MatSelectModule, MatFormFieldModule, MatSortModule, MatTableModule, MatPaginatorModule } from '@angular/material';
 
 import { environment } from '../environments/environment';
 
@@ -53,6 +55,7 @@ import { ProductService } from './services/product.service';
     HttpModule,
     FormsModule,
     CustomFormsModule,
+    MatSelectModule, MatFormFieldModule, MatTableModule, MatSortModule, MatPaginatorModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
