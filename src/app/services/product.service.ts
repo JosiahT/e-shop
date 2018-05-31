@@ -12,8 +12,11 @@ export class ProductService {
     return this.db.list('/products').push(product);
   }
 
-  getAll() {
-    return this.db.list('/products');
+  getAll(category?) {
+    return this.db.list('/products', ref => {
+      if (!category) return ref;
+      else return ref.orderByChild('category').equalTo(category);
+    });
   }
 
   get(productId) {

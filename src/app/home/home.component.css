@@ -1,0 +1,8 @@
+.w-100 {
+    padding-bottom:20px;
+}
+
+.sidebar {    
+    position: fixed;
+    z-index: 1;
+}

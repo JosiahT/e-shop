@@ -11,6 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   categories$;
+  products$;
+  category = '';
 
   constructor(
     private categoryService: CategoryService,
@@ -22,6 +24,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      this.category = params.get('category');
+      this.products$ = this.productService.getAll(this.category).valueChanges();
+    });
   }
 
 }
