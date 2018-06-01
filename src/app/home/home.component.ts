@@ -1,33 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../services/category.service';
+import { Component } from '@angular/core';
 import { ProductService } from '../services/product.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
-  categories$;
   products$;
-  category = '';
 
   constructor(
-    private categoryService: CategoryService,
     private productService: ProductService,
-    private router: Router,
     private route: ActivatedRoute
   ) {
-    this.categories$ = categoryService.getAll().snapshotChanges();
-  }
-
-  ngOnInit() {
-    this.route.queryParamMap.subscribe(params => {
-      this.category = params.get('category');
-      this.products$ = this.productService.getAll(this.category).valueChanges();
-    });
+    this.route.queryParamMap
+      .subscribe(params => 
+        this.products$ = this.productService.getAll(params.get('category')).valueChanges());
   }
 
 }
