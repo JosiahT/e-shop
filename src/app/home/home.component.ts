@@ -16,8 +16,7 @@ export class HomeComponent {
     private route: ActivatedRoute
   ) {
     this.route.queryParamMap
-      .subscribe(params => 
+      .subscribe(params =>
         this.products$ = this.productService.getAll(params.get('category')).valueChanges());
   }
-
 }
