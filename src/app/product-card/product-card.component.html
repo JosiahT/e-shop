@@ -1,10 +1,17 @@
-<div *ngIf="product.title" class="card">
-    <img *ngIf="product.imageUrl" class="card-img-top" [src]="product.imageUrl" [alt]="product.title">
+<div *ngIf="product.payload.val().title" class="card">
+    <img *ngIf="product.payload.val().imageUrl" class="card-img-top" [src]="product.payload.val().imageUrl" [alt]="product.payload.val().title">
     <div class="card-body">
-        <h5 class="card-title">{{ product.title }}</h5>
-        <p class="card-text">{{ product.price | currency:'USD' }}</p>
+        <h5 class="card-title">{{ product.payload.val().title }}</h5>
+        <p class="card-text">{{ product.payload.val().price | currency:'USD' }}</p>
     </div>
-    <div class="card-footer">
-        <button *ngIf="action" (click)="addToCart(product)" class="btn btn-default btn-block">Add to Cart</button>
+    <div *ngIf="action" class="card-footer">
+        <ng-template #addedToCart>
+            <button (click)="updateCart(product, false)" class="btn btn-default btn-block">Add to Cart</button>
+        </ng-template>        
+        <div *ngIf="quantity; else addedToCart" class="input-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-secondary">-</button>
+            <button type="button" class="input-group-text">{{ quantity }}</button>
+            <button type="button" class="btn btn-secondary">+</button>
+        </div>
     </div>
 </div>

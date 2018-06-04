@@ -3,6 +3,7 @@ import { CategoryService } from '../../services/category.service';
 import { ProductService } from '../../services/product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-product-form',
@@ -11,7 +12,7 @@ import { take } from 'rxjs/operators';
 })
 export class ProductFormComponent implements OnInit {
   categories$;
-  product = {};
+  product: Product;
   id;
   constructor(
     private categoryService: CategoryService,
@@ -21,7 +22,7 @@ export class ProductFormComponent implements OnInit {
   ) {
     this.categories$ = categoryService.getAll().snapshotChanges();
     this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) productService.get(this.id).valueChanges().pipe(take(1)).subscribe(pr => this.product = pr);
+    if (this.id) productService.get(this.id).valueChanges().pipe(take(1)).subscribe(pr => this.product = pr as Product);
     // here no need to implement the onDestroy to unsubscribe from it because we used take()
     // which only takes 1 item from the observable and the observable would automatically complete.
   }
