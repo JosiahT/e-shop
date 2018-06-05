@@ -1,18 +1,31 @@
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Product</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Price</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-  <tfoot>
-    <tr>
-      <td></td>
-      <td></td>
-      <td>0</td>
-    </tr>
-  </tfoot>
-</table>
-<button type="button" class="btn btn-danger">Clear Shopping Cart</button>
+<h1>Shopping Cart</h1>
+<ng-container *ngIf="cart">
+  <p>
+    You have {{ getTotalQuantity(cart) }} items in your shopping cart.
+  </p>  
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let productId of keys">
+          <td>{{ cart[productId].product.title }}</td>
+          <td>
+            <div class="row no-gutters">
+                <div class="col-2"><button type="button" class="btn btn-secondary btn-block"  (click)="removeFromCart(cart[productId])">-</button></div>
+                <div class="col text-center">{{ cart[productId].quantity }} in cart</div>
+                <div class="col-2"><button type="button" class="btn btn-secondary btn-block" (click)="addToCart(cart[productId])">+</button></div>
+            </div>
+          </td>
+          <td>{{ cart[productId].quantity * cart[productId].product.price | currency:'USD' }}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+    </tfoot>
+  </table>
+  <button type="button" class="btn btn-danger">Clear Shopping Cart</button>
+</ng-container>

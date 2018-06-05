@@ -6,7 +6,7 @@
         <div class="row">
             <ng-container *ngFor="let p of products$ | async; let i = index">
                 <div class="col">
-                    <product-card [product]="p" [product-action]="true"></product-card>
+                    <product-card [product]="p" [show-action]="true" [shopping-cart]="shoppingCart$ | async"></product-card>
                 </div>
                 <div *ngIf="(i + 1) % 2 === 0" class="w-100"></div>
             </ng-container>

@@ -9,20 +9,24 @@ import { Observable } from 'rxjs';
   styleUrls: ['./product-card.component.css']
 })
 export class ProductCardComponent {
-  @Input('product') product;
+  @Input('product') product: Product;
   @Input('show-action') action: boolean;
-  @Input('shopping-cart') shoppingCart;
-
-  quantity$: Observable<number>;
+  @Input('shopping-cart') shoppingCart: any;
 
   constructor(private cartService: ShoppingCartService) {
    }
 
-  updateCart(product, isRemove: boolean) { this.quantity$.subscribe(x=>console.log('x',x));
-    this.cartService.updateCart(product, isRemove);
+  addToCart() {
+    this.cartService.addToCart(this.product);
+  }
+
+  removeFromCart() {
+    this.cartService.removeFromCart(this.product);
   }
 
   getQuantity() {
-
+    if (!this.shoppingCart) return 0;
+    if (!this.shoppingCart.items[this.product.key]) return 0;
+    return this.shoppingCart.items[this.product.key].quantity;
   }
 }

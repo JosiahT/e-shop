@@ -17,22 +17,15 @@ export class AdminProductsComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  products: any[];
-  filteredProducts: any[];
+  products: Product[] = [];
+  filteredProducts: any[] = [];
   subscription: Subscription;
   constructor(private productService: ProductService) {
-    this.subscription = this.productService.getAll().snapshotChanges().pipe(map(p => {
-      return p.filter(pp => {
-        const x = pp.payload.val();
-        return x;
-      });
-    })).subscribe(s => {
-      this.products = [];
-      s.filter(ss => this.products.push({id: this.products.length, key: ss.key, ...ss.payload.val()}));
+    this.subscription = this.productService.getAll().subscribe(s => {
+      this.products = s;
       this.dataSource = new MatTableDataSource(this.products);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
     });
 
 

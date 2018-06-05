@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { take, map } from 'rxjs/operators';
 import { Observable, empty } from 'rxjs';
+import { ShoppingCart } from '../models/shopping-cart';
+import { Product } from '../models/product';
+import { ShoppingCartItem } from '../models/shopping-cart-item';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +19,11 @@ export class ShoppingCartService {
     });
   }
 
-  private getCart(cartId: string) {
-    return this.db.object('/shopping-carts/' + cartId);
-  }
-
   private getItem( cartId: string, productId: string) {
     return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
   }
 
-  private async getOrCreateCart() {
+  private async getOrCreateCartId() {
     const cartId = localStorage.getItem('cartId');
     if (cartId) return cartId;
     const result = await this.create();
@@ -32,12 +31,36 @@ export class ShoppingCartService {
     return result.key;
   }
 
-  async updateCart(product, isRemove: boolean) {
-    const cartId = await this.getOrCreateCart();
+  private async updateCart(product: Product, changeBy: number) {
+    const cartId = await this.getOrCreateCartId();
     const items$ = this.getItem(cartId, product.key);
     items$.snapshotChanges().pipe(take(1)).subscribe((item: any) => {
-      if (item.key) items$.update({quantity: item.payload.val().quantity + (isRemove ? -1 : 1) });
-      else items$.set({product: product.payload.val(), quantity: 1});
+      if (item.key) items$.update({quantity: item.payload.val().quantity + changeBy });
+      else items$.set({product: product.data, quantity: 1});
     });
+  }
+
+  async addToCart(product: Product) {
+    this.updateCart(product, 1);
+  }
+
+  async removeFromCart(product: Product) {
+    this.updateCart(product, -1);
+  }
+
+  async getCart() {
+    const cartId = await this.getOrCreateCartId();
+    return this.db.object('/shopping-carts/' + cartId)
+      .snapshotChanges().pipe(map((cart: any) => {
+        const items = cart.payload.val().items;
+        const keys = Object.keys(cart);
+        let cartItems: ShoppingCartItem[] = [];
+        for (const productId of keys)
+          cartItems.push({
+            product: { key: productId, data: items[productId].product },
+            quantity: items[productId].quantity
+          });
+        return new ShoppingCart(cartItems);
+      }));
   }
 }

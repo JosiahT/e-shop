@@ -22,7 +22,7 @@ export class ProductFormComponent implements OnInit {
   ) {
     this.categories$ = categoryService.getAll().snapshotChanges();
     this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) productService.get(this.id).valueChanges().pipe(take(1)).subscribe(pr => this.product = pr as Product);
+    if (this.id) productService.get(this.id).pipe(take(1)).subscribe(pr => this.product = pr);
     // here no need to implement the onDestroy to unsubscribe from it because we used take()
     // which only takes 1 item from the observable and the observable would automatically complete.
   }

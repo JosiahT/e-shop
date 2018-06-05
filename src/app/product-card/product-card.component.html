@@ -6,12 +6,14 @@
     </div>
     <div *ngIf="action" class="card-footer">
         <ng-template #addedToCart>
-            <button (click)="updateCart(product, false)" class="btn btn-default btn-block">Add to Cart</button>
+            <button (click)="addToCart()" class="btn btn-secondary btn-block">Add to Cart</button>
         </ng-template>        
-        <div *ngIf="quantity; else addedToCart" class="input-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary">-</button>
-            <button type="button" class="input-group-text">{{ quantity }}</button>
-            <button type="button" class="btn btn-secondary">+</button>
+        <div *ngIf="getQuantity() as quantity; else addedToCart">
+            <div class="row no-gutters">
+                <div class="col-2"><button type="button" class="btn btn-secondary btn-block"  (click)="removeFromCart()">-</button></div>
+                <div class="col text-center">{{ quantity }} in cart</div>
+                <div class="col-2"><button type="button" class="btn btn-secondary btn-block" (click)="addToCart()">+</button></div>
+            </div>
         </div>
     </div>
 </div>
