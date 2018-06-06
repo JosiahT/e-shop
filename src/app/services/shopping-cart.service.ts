@@ -51,16 +51,6 @@ export class ShoppingCartService {
   async getCart() {
     const cartId = await this.getOrCreateCartId();
     return this.db.object('/shopping-carts/' + cartId)
-      .snapshotChanges().pipe(map((cart: any) => {
-        const items = cart.payload.val().items;
-        const keys = Object.keys(cart);
-        let cartItems: ShoppingCartItem[] = [];
-        for (const productId of keys)
-          cartItems.push({
-            product: { key: productId, data: items[productId].product },
-            quantity: items[productId].quantity
-          });
-        return new ShoppingCart(cartItems);
-      }));
+      .snapshotChanges().pipe(map((cart: any) => new ShoppingCart(cart.payload.val().items)));
   }
 }

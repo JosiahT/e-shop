@@ -1,7 +1,7 @@
 <h1>Shopping Cart</h1>
-<ng-container *ngIf="cart">
+<ng-container *ngIf="cart$ | async as cart">
   <p>
-    You have {{ getTotalQuantity(cart) }} items in your shopping cart.
+    You have {{ cart.totalQuantity }} items in your shopping cart.
   </p>  
   <table class="table table-hover">
     <thead>
@@ -12,19 +12,24 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let productId of keys">
-          <td>{{ cart[productId].product.title }}</td>
+        <tr *ngFor="let productItem of cart.items">
+          <td>{{ productItem.product.data.title }}</td>
           <td>
             <div class="row no-gutters">
-                <div class="col-2"><button type="button" class="btn btn-secondary btn-block"  (click)="removeFromCart(cart[productId])">-</button></div>
-                <div class="col text-center">{{ cart[productId].quantity }} in cart</div>
-                <div class="col-2"><button type="button" class="btn btn-secondary btn-block" (click)="addToCart(cart[productId])">+</button></div>
+                <div class="col-2"><button type="button" class="btn btn-secondary btn-block"  (click)="removeFromCart(productItem.product)">-</button></div>
+                <div class="col text-center">{{ productItem.quantity }} in cart</div>
+                <div class="col-2"><button type="button" class="btn btn-secondary btn-block" (click)="addToCart(productItem.product)">+</button></div>
             </div>
           </td>
-          <td>{{ cart[productId].quantity * cart[productId].product.price | currency:'USD' }}</td>
+          <td>{{ productItem.totalPrice | currency: 'USD' }}</td>
         </tr>
     </tbody>
     <tfoot>
+      <tr>
+        <th></th>
+        <th></th>
+        <th>{{ cart.totalPrice | currency: 'USD' }}</th>
+      </tr>
     </tfoot>
   </table>
   <button type="button" class="btn btn-danger">Clear Shopping Cart</button>

@@ -1,8 +1,8 @@
-<div *ngIf="product.payload.val().title" class="card">
-    <img *ngIf="product.payload.val().imageUrl" class="card-img-top" [src]="product.payload.val().imageUrl" [alt]="product.payload.val().title">
+<div *ngIf="product.data.title" class="card">
+    <img *ngIf="product.data.imageUrl" class="card-img-top" [src]="product.data.imageUrl" [alt]="product.data.title">
     <div class="card-body">
-        <h5 class="card-title">{{ product.payload.val().title }}</h5>
-        <p class="card-text">{{ product.payload.val().price | currency:'USD' }}</p>
+        <h5 class="card-title">{{ product.data.title }}</h5>
+        <p class="card-text">{{ product.data.price | currency:'USD' }}</p>
     </div>
     <div *ngIf="action" class="card-footer">
         <ng-template #addedToCart>

@@ -22,16 +22,16 @@ export class HomeComponent implements OnInit {
     private cartService: ShoppingCartService,
     private route: ActivatedRoute
   ) {
+  }
+
+  async ngOnInit() {
     this.route.queryParamMap
       .subscribe(params =>
         this.products$ = this.productService.getAll(params.get('category'))
         /*.pipe(map(products =>
             Array.from(products, product => ({ key: product.key, ...product.payload.val()}) as Product)
           ))*/);
-  }
-
-  async ngOnInit() {
-    this.shoppingCart$ = (await this.cartService.getCart());
+    this.shoppingCart$ = await this.cartService.getCart();
 
   }
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../services/shopping-cart.service';
-import { map } from 'rxjs/operators';
 import { Product } from '../models/product';
 
 @Component({
@@ -8,18 +7,12 @@ import { Product } from '../models/product';
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.css']
 })
-export class ShoppingCartComponent implements OnInit, OnDestroy {
+export class ShoppingCartComponent implements OnInit {
   cart$;
-  keys: string[];
-  cart;
   constructor(private cartService: ShoppingCartService) { }
 
   async ngOnInit() {
-    this.cart$ = await this.cartService.getCart();
-  }
-
-  ngOnDestroy() {
-    this.cart$.unsubscribe();
+    this.cart$ = (await this.cartService.getCart());
   }
 
   addToCart(product: Product) {
@@ -29,12 +22,6 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 
   removeFromCart(product: Product) {
     this.cartService.removeFromCart(product);
-  }
-
-  getTotalQuantity() {
-    let totalQuantity = 0;
-    for (const productId of this.keys) totalQuantity += this.cart[productId].quantity;
-    return totalQuantity;
   }
 
 }
