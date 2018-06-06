@@ -15,13 +15,7 @@ export class ShoppingCartComponent implements OnInit {
     this.cart$ = (await this.cartService.getCart());
   }
 
-  addToCart(product: Product) {
-    console.log(product);
-    this.cartService.addToCart(product);
+  clearCart() {
+    this.cartService.clearCart();
   }
-
-  removeFromCart(product: Product) {
-    this.cartService.removeFromCart(product);
-  }
-
 }

@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDvvTdDaLGOMpAO3PsbacLjt_yfrPbkPqg",
-    authDomain: "paint-shop-4d07d.firebaseapp.com",
-    databaseURL: "https://paint-shop-4d07d.firebaseio.com",
-    projectId: "paint-shop-4d07d",
-    storageBucket: "paint-shop-4d07d.appspot.com",
-    messagingSenderId: "615497000862"
+    apiKey: 'AIzaSyDrLNqsJykzCFPACjglJErYXpGaFkTsEx0',
+    authDomain: 'daily-shop.firebaseapp.com',
+    databaseURL: 'https://daily-shop.firebaseio.com',
+    projectId: 'daily-shop',
+    storageBucket: 'daily-shop.appspot.com',
+    messagingSenderId: '560139808186'
   }
 };
 

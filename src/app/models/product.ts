@@ -1,6 +1,7 @@
-import { ProductContent } from './product-content';
-
 export interface Product {
     key: string;
-    data: ProductContent;
+    title: string;
+    price: number;
+    category: string;
+    imageUrl: string;
 }

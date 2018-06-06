@@ -13,6 +13,25 @@ export class ShoppingCartService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  async getCart() {
+    const cartId = await this.getOrCreateCartId();
+    return this.db.object('/shopping-carts/' + cartId)
+      .snapshotChanges().pipe(map((cart: any) => new ShoppingCart(cart.payload.val().items)));
+  }
+
+  async addToCart(product: Product) {
+    this.updateCart(product, 1);
+  }
+
+  async removeFromCart(product: Product) {
+    this.updateCart(product, -1);
+  }
+
+  async clearCart() {
+    const cartId = await this.getOrCreateCartId();
+    return this.db.object('/shopping-carts/' + cartId + '/items').remove();
+  }
+
   private create() {
     return this.db.list('/shopping-carts').push({
       dateCreated: new Date().getTime()
@@ -35,22 +54,12 @@ export class ShoppingCartService {
     const cartId = await this.getOrCreateCartId();
     const items$ = this.getItem(cartId, product.key);
     items$.snapshotChanges().pipe(take(1)).subscribe((item: any) => {
-      if (item.key) items$.update({quantity: item.payload.val().quantity + changeBy });
-      else items$.set({product: product.data, quantity: 1});
+      let quantity = 1;
+      if (item && item.payload.val()) quantity = (item.payload.val().quantity || 0) + changeBy;
+      if (quantity === 0) items$.remove();
+      else items$.update({
+        title: product.title, imageUrl: product.imageUrl, price: product.price, quantity: quantity
+      });
     });
-  }
-
-  async addToCart(product: Product) {
-    this.updateCart(product, 1);
-  }
-
-  async removeFromCart(product: Product) {
-    this.updateCart(product, -1);
-  }
-
-  async getCart() {
-    const cartId = await this.getOrCreateCartId();
-    return this.db.object('/shopping-carts/' + cartId)
-      .snapshotChanges().pipe(map((cart: any) => new ShoppingCart(cart.payload.val().items)));
   }
 }

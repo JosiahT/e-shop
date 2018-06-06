@@ -16,19 +16,4 @@ export class ProductCardComponent {
 
   constructor(private cartService: ShoppingCartService) {
    }
-
-  addToCart() {
-    this.cartService.addToCart(this.product);
-  }
-
-  removeFromCart() {
-    this.cartService.removeFromCart(this.product);
-  }
-
-  getQuantity() {
-    if (!this.shoppingCart) return 0;
-    const cartItem = this.shoppingCart.itemsMap[this.product.key];
-    if (!cartItem) return 0;
-    return cartItem.quantity;
-  }
 }

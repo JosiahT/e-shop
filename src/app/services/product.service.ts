@@ -20,12 +20,12 @@ export class ProductService {
       if (!category) return ref;
       else return ref.orderByChild('category').equalTo(category);
     }).snapshotChanges().pipe(map(products =>
-      Array.from(products, product => ({ key: product.key, data: product.payload.val() }) as Product)));
+      Array.from(products, product => ({ key: product.key, ...product.payload.val() }) as Product)));
   }
 
   get(productId) {
     return this.db.object('/products/' + productId)
-      .snapshotChanges().pipe(map(product => ({ key: product.key, data: product.payload.val() }) as Product));
+      .snapshotChanges().pipe(map(product => ({ key: product.key, ...product.payload.val() }) as Product));
   }
 
   update(productId, product) {

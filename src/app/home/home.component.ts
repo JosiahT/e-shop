@@ -21,8 +21,7 @@ export class HomeComponent implements OnInit {
     private productService: ProductService,
     private cartService: ShoppingCartService,
     private route: ActivatedRoute
-  ) {
-  }
+  ) { }
 
   async ngOnInit() {
     this.route.queryParamMap
