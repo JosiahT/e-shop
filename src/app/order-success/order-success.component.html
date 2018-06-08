@@ -1,3 +1,17 @@
-<p>
-  order-success works!
-</p>
+<div class="col-10" *ngIf="order$ | async as order">
+    <p>{{order.items.length}} orders have been placed successfully.</p>
+    <table class="table table-hover">
+        <tbody>
+            <tr *ngFor="let item of order.items">
+              <td class="text-left">{{ item.quantity }} x {{ item.title }}</td>
+              <td class="text-right">{{ item.totalPrice | currency: 'USD' }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="text-left">Total</th>
+            <th class="text-right">{{ cart.totalPrice | currency: 'USD' }}</th>
+          </tr>
+        </tfoot>
+      </table>
+</div>
