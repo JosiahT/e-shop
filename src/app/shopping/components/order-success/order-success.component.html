@@ -1,0 +1,12 @@
+<div class="col-10" *ngIf="order$ | async as order">
+    <p>{{order.items.length}} orders have been placed successfully.</p>
+    <table class="table table-hover">
+        <tbody>
+            <tr *ngFor="let item of order.items">
+                <td><div [style.backgroundImage]="'url('+item.product.imageUrl+')'" class="thumbnail"></div></td>
+              <td class="text-left">{{ item.quantity }} x {{ item.product.title }}</td>
+              <td class="text-right">{{ item.totalPrice | currency: 'USD' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

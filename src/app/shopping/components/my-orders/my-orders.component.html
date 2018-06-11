@@ -1,0 +1,13 @@
+<h2>Orders</h2>
+<ng-template #noOrder><p>There are no orders to show.</p></ng-template>
+<div class="col-10" *ngIf="orders$ | async as orders">
+    <table class="table table-hover" *ngIf="orders.length; else noOrder">
+        <tbody>
+            <tr *ngFor="let order of orders">
+              <td>{{ order.shipping.name }}</td>
+              <td>{{ order.datePlaced | date: 'mediumDate' }}</td>
+              <td><a routerLink="/my/order/">View</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
